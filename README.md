@@ -1,1 +1,1 @@
-# fast-api-tutorial
+# FastAPI観賞用リポジトリ
