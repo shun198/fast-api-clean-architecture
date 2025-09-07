@@ -1,0 +1,13 @@
+# https://kubernetes.io/ja/docs/concepts/workloads/pods/disruptions/#pod-disruption-budget
+# PDBは、レプリカを持っているアプリケーションのうち、自発的なDisruptionによって同時にダウンするPodの数を制限
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  namespace: default
+  name: {{.Release.Name}}
+  labels: default
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{.Release.Name}}
