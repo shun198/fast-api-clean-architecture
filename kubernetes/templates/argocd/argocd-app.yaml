@@ -1,0 +1,15 @@
+# https://argocd-image-updater.readthedocs.io/en/stable/
+# https://zenn.dev/wn_engineering/articles/a905f8f1cd213d
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-application
+  annotations:
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/git-branch: main:release/image-updater{{range .Images}}-{{.Name}}/{{.NewTag}}{{end}}
+    argocd-image-updater.argoproj.io/image-list: my-image=<AWSアカウントID>.dkr.ecr.<リージョン>.amazonaws.com/<リポジトリ>
+    argocd-image-updater.argoproj.io/my-image.helm.image-name: 'basic-app.image.repository'
+    argocd-image-updater.argoproj.io/my-image.helm.image-tag: 'basic-app.image.tag'
+    argocd-image-updater.argoproj.io/my-image.update-strategy: semver
+    argocd-image-updater.argoproj.io/write-back-target: 'helmvalues:../../../prod/my-application/values.yaml'
+    argocd-image-updater.argoproj.io/my-image.ignore-tags: latest

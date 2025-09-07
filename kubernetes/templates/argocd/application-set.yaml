@@ -1,0 +1,4 @@
+# https://argo-cd.readthedocs.io/en/stable/proposals/backend-support-appset/#applicationsets-and-appprojects
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
