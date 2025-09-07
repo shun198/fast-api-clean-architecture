@@ -1,0 +1,18 @@
+# https://argo-workflows.readthedocs.io/en/latest/quick-start/
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: test-cron-wf
+spec:
+  schedules:
+    - '* * * * *'
+  concurrencyPolicy: 'Replace'
+  startingDeadlineSeconds: 0
+  workflowSpec:
+    entrypoint: date
+    templates:
+      - name: date
+        container:
+          image: alpine:3.6
+          command: [sh, -c]
+          args: ['date; sleep 90']
