@@ -1,15 +1,16 @@
+# https://kubernetes.io/ja/docs/concepts/services-networking/service/
+# Podの論理的なセットや、そのPodのセットにアクセスするためのポリシーを定義します
+# PodのIPは水平スケーリングや再起動により変化するため、Serviceを利用して安定したアクセスを提供する
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "manifests.fullname" . }}
-  labels:
-    {{- include "manifests.labels" . | nindent 4 }}
+  name: {{include "manifests.fullname" .}}
+  labels: {{- include "manifests.labels" . | nindent 4}}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{.Values.service.type}}
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{.Values.service.port}}
       targetPort: http
       protocol: TCP
       name: http
-  selector:
-    {{- include "manifests.selectorLabels" . | nindent 4 }}
+  selector: {{- include "manifests.selectorLabels" . | nindent 4}}
