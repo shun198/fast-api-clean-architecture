@@ -1,3 +1,5 @@
+# https://kubernetes.io/ja/docs/concepts/workloads/controllers/deployment/
+# 自動でPodの数の増減や維持ができるReplicaSetは直接使わず、deploymentを使うことが推奨されている
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,6 +8,7 @@ metadata:
     {{- include "manifests.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
+  # replicasでReplicaSetの代わりにPodの数を指定する
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:

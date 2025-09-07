@@ -1,3 +1,5 @@
+# https://kubernetes.io/ja/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+# Podの数をCPU使用率などのメトリクスに基づいて自動的にスケールイン・スケールアウトさせる機能
 {{- if .Values.autoscaling.enabled }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
