@@ -1,0 +1,9 @@
+FROM ghcr.io/astral-sh/uv:python3.12-alpine
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+WORKDIR /code
+COPY application/pyproject.toml /code/
+RUN uv sync
+COPY application /code/
+EXPOSE 8000
+CMD ["uv", "run", "uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
