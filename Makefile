@@ -33,5 +33,5 @@ makemigrations:
 migrate:
 	$(RUN_UV) alembic upgrade head
 
-helm-value:
-	helm template fastapi-app ./kubernetes --values ./kubernetes/values.yaml
+helm-template:
+	helm template ./kubernetes/ --values ./kubernetes/values.yaml

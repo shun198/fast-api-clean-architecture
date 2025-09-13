@@ -17,7 +17,7 @@ services:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
     ports:
-      - "5432:5432" # デバッグ用
+      - '5432:5432' # デバッグ用
   app:
     container_name: app
     build:
@@ -39,7 +39,7 @@ services:
     container_name: mail
     image: schickling/mailcatcher
     ports:
-      - "1080:1080"
-      - "1025:1025"
+      - '1080:1080'
+      - '1025:1025'
 volumes:
   db_data:
