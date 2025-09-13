@@ -5,6 +5,7 @@ kind: Application
 metadata:
   name: argocd
   namespace: argocd
+  # https://argocd-image-updater.readthedocs.io/en/stable/examples/
   annotations:
     argocd-image-updater.argoproj.io/write-back-method: git
     argocd-image-updater.argoproj.io/git-branch: main:release/image-updater{{range .Images}}-{{.Name}}/{{.NewTag}}{{end}}

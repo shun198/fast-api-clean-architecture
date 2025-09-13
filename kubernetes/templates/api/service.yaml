@@ -4,13 +4,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{include "manifests.fullname" .}}
-  labels: {{- include "manifests.labels" . | nindent 4}}
+  name: fastapi-service
 spec:
-  type: {{.Values.service.type}}
   ports:
-    - port: {{.Values.service.port}}
-      targetPort: http
+    - name: http
+      port: 8000
       protocol: TCP
-      name: http
-  selector: {{- include "manifests.selectorLabels" . | nindent 4}}
+      targetPort: 8000
+      nodePort: 30000
+  # どのpodにトラフィックを送るかを決定するためのラベルセレクター
+  selector:
+    app: fastapi
+  type: NodePort

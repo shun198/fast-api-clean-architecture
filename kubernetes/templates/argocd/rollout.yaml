@@ -1,3 +1,4 @@
+# https://argoproj.github.io/argo-rollouts/
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:

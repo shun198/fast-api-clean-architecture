@@ -3,79 +3,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "manifests.fullname" . }}
+  name: fastapi-deployment
   labels:
-    {{- include "manifests.labels" . | nindent 4 }}
+    app: fastapi
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  # replicasでReplicaSetの代わりにPodの数を指定する
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: 3
   selector:
     matchLabels:
-      {{- include "manifests.selectorLabels" . | nindent 6 }}
+      app: fastapi
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        {{- include "manifests.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
+        app: fastapi
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "manifests.serviceAccountName" . }}
-      {{- with .Values.podSecurityContext }}
-      securityContext:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
-          {{- with .Values.securityContext }}
-          securityContext:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: fastapi
+          # docker build -f ./containers/fastapi/Dockerfile.dev -t kubernetes-fastapi-app:latest .
+          image: kubernetes-fastapi-app:latest
+          imagePullPolicy: IfNotPresent
           ports:
-            - name: http
-              containerPort: {{ .Values.service.port }}
-              protocol: TCP
-          {{- with .Values.livenessProbe }}
-          livenessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.readinessProbe }}
-          readinessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.resources }}
-          resources:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.volumeMounts }}
-          volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.volumes }}
-      volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+            - containerPort: 8000
+          env:
+            - name: SECRET_KEY
+              value: 'test'
+            - name: ALGORITHM
+              value: 'HS256'
+            - name: SQLALCHEMY_DATABASE_URL
+              value: 'postgresql://postgres:postgres@db:5432/postgres'
+            - name: SENDGRID_API_KEY
+              value: 'test'
+            - name: COOKIE_SAME_SITE
+              value: 'Lax'

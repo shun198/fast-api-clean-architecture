@@ -1,2 +1,4 @@
+# https://kubernetes.io/ja/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+# https://cloud.google.com/kubernetes-engine/docs/how-to/configure-gateway-resources?hl=ja#configure_gateway_1-
 apiVersion: networking.gke.io/v1
 kind: HealthCheckPolicy
