@@ -1,0 +1,34 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: weekly
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: weekly
+  - package-ecosystem: "uv"
+    directory: "/application"
+    schedule:
+      interval: weekly
+  - package-ecosystem: "uv"
+    directory: "/batches"
+    schedule:
+      interval: weekly
+  - package-ecosystem: "docker"
+    directory: "/containers/fastapi"
+    schedule:
+      interval: weekly
+  - package-ecosystem: "docker"
+    directory: "/containers/postgres"
+    schedule:
+      interval: weekly
+  - package-ecosystem: "docker-compose"
+    directory: "/"
+    schedule:
+      interval: weekly
+  - package-ecosystem: "helm"
+    directory: "/kubernetes"
+    schedule:
+      interval: weekly
